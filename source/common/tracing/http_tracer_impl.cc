@@ -252,7 +252,7 @@ HttpTracerUtility::createCustomTag(const envoy::type::tracing::v3::CustomTag& ta
   case envoy::type::tracing::v3::CustomTag::TypeCase::kMetadata:
     return std::make_shared<const Tracing::MetadataCustomTag>(tag.tag(), tag.metadata());
   default:
-    NOT_REACHED_GCOVR_EXCL_LINE;
+    NOT_REACHED_GCOVR_EXCL_LINE; // LCOV_EXCL_LINE
   }
 }
 

@@ -829,6 +829,19 @@ TEST_F(HttpTracerImplTest, ChildUpstreamSpanTest) {
                                           stream_info_, config_);
 }
 
+TEST_F(HttpTracerImplTest, DummyCallToMetadataTag) {
+  MetadataCustomTag tag("testing", envoy::type::tracing::v3::CustomTag::Metadata());
+  StreamInfo::MockStreamInfo testing_info_;
+  Http::TestRequestHeaderMapImpl header_map_;
+  CustomTagContext context{&header_map_, testing_info_};
+  tag.value(context);
+}
+
+TEST_F(HttpTracerImplTest, TestExceptionWithBadTag) {
+  envoy::type::tracing::v3::CustomTag tag;
+  tag.clear_type();
+  EXPECT_DEATH(HttpTracerUtility::createCustomTag(tag), "not reached");
+}
 } // namespace
 } // namespace Tracing
 } // namespace Envoy
